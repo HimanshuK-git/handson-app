@@ -1,0 +1,118 @@
+<div class="container my-2" style="border: solid;border-width: thin;">
+    <h1>Form Validation *</h1>
+    <form [formGroup]="form">
+        <div class="form-group">
+                <input 
+                formControlName = "username"
+                id="username"
+                type="text"
+                class="form-control"
+                placeholder="Associate Name">
+                <div *ngIf = "username.touched && username.invalid" class="alert alert-danger">
+                    <div *ngIf = "username.errors.required">Please enter the Associate Name</div>
+                    <div *ngIf = "username.errors.pattern">Enter only Alphabets, space</div>
+                    <div *ngIf = "username.errors.minlength || username.errors.maxlength "> Min 5 to Max 30 Char</div>
+                </div> 
+        </div>
+        <div class="form-group">
+                <input 
+                formControlName = "associd"
+                id="associd"
+                type="text"
+                class="form-control"
+                placeholder="Associate Id">
+                <div *ngIf = "associd.touched && associd.invalid" class="alert alert-danger">
+                    <div *ngIf = "associd.errors.required">Please enter the Associate Id</div>
+                    <div *ngIf = "associd.errors.pattern">Invalid Associate id</div>
+                </div> 
+        </div>
+        <div class="form-group">
+            <input 
+            formControlName = "projid"
+            id="projid"
+            type="text"
+            class="form-control"
+            placeholder="Project Id">
+            <div *ngIf = "projid.touched && projid.invalid" class="alert alert-danger">
+                <div *ngIf = "projid.errors.required">Please enter the Project Id</div>
+                <div *ngIf = "projid.errors.pattern">Invalid Project id</div>
+                <div *ngIf = "projid.errors.length">Invalid Project id</div>
+            </div> 
+        </div>
+
+        <div class="d-flex">
+            <div class="form-group mr-2">
+                <input class="form-control-input" formControlName="location" type="radio" name="location" id="location" (change)="onChange($event.target.value)" value="1">
+                <label class="form-control-label ml-2" for="inlineRadio1">Off-shore</label>
+            </div>
+            <div class="form-group">
+                <input class="form-control-input" type="radio" name="location" formControlName="location" id="location" (change)="onChange($event.target.value)"  value="2">
+                <label class="form-control-label ml-2" for="inlineRadio2">On-shore</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <select class="form-control" formControlName="location2">
+              <option selected >Select Location</option>
+              <option *ngFor="let location of locations">{{ location }}</option>
+            </select>
+            <div>
+                <div 
+                *ngIf="location2.touched && location2.invalid" class="alert alert-danger">
+                    Please select the location
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="form-control">
+                <label (change)="onCheck($event.target.value)" for="Check" *ngFor="let skill of skills">
+                    <input class="mx-3" type="checkbox" formControlName="skill" [value]="skill.id" id="Check">
+                    {{ skill.name }}
+                </label>
+            </div>
+            <div
+            *ngIf="isSelected==true" class="alert alert-danger mt-4">
+            Please select Min 5 skills
+            </div>
+        </div>
+
+        <div class="form-group mt-5">
+            <p>Upload Profile</p>
+            <div class="d-flex">
+                <input type="button" value="Choose File">
+                <input 
+                style="width:20%;"
+                type="profile" 
+                name="profile" 
+                id="profile" 
+                class="form-control"
+                formControlName="profile"
+                [class.error]="profile.touched && profile.invalid"
+                placeholder="No file chosen"
+                >
+            </div>
+            <div>
+                <div
+                *ngIf="profile.touched && profile.invalid" class="alert alert-danger">
+                    Please upload Profile Picture
+            </div>
+            </div>
+        
+        </div>
+        <div class="form-group pt-3">
+            <textarea class="px-3"
+            formControlName = "comment"
+            id="comment" 
+            cols="150" rows="4" 
+            placeholder="Comments"></textarea>
+            <div *ngIf = "comment.touched && comment.invalid" class="alert alert-danger">
+                <div *ngIf = "comment.errors.required">Please Enter Comments</div>
+            </div> 
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary mr-2" type="submit" (change)="onSubmit()" [disabled]="!form.valid">Submit</button>
+            <button class="btn btn-danger" type="reset" (change)="onReset()">Reset</button>
+        </div>
+    </form>
+</div>
